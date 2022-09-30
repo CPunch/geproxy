@@ -9,7 +9,6 @@ import (
 
 func handleRequest(peer *gemini.GeminiPeer) {
 	if msg, isParam := peer.GetParam(); isParam {
-		println("got param: " + msg)
 		// send data back to peer!
 		body := gemini.NewBody()
 
@@ -18,8 +17,9 @@ func handleRequest(peer *gemini.GeminiPeer) {
 		if err != nil {
 			body.AddHeader("Youch!")
 			body.AddTextLine(err.Error())
+		} else {
+			body.AddRaw(response)
 		}
-		body.AddTextLine(response)
 		peer.SendBody(body)
 	} else {
 		// ask peer for data
